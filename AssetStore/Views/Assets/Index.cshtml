@@ -1,0 +1,99 @@
+﻿@model AssetStore.Models.AllAssets
+
+
+
+@if (Model.assets2D != null)
+{
+    int i = -1;
+    <div class="asset-holder text-center row" style="">
+        @{
+
+            foreach (var item in Model.assets2D)
+            {
+                try
+                {
+                    i++;
+                    var base64 = Convert.ToBase64String(Model.asset2dImages[i]);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    <div class="col-md-4 col-xl-3 col-sm-4 col-12 m-sm-4 m-lg-0 m-2" style="padding:0;" width="206px">
+                        <img class=" p-lg-0 thumbnail" onclick="location.href= '@Url.Action("_2D", new { Id = item.Id })'" src="@imgSrc" width="240px" height="150px" style="padding:0; border-radius:4px;margin:0px;cursor:pointer;" />
+                        <p>@item.Name</p>
+                    </div>
+                }
+                catch (Exception e) { }
+            }
+            i=-1;
+            foreach (var item in Model.assets3D)
+            {
+                try
+                {
+                    i++;
+                    var base64 = Convert.ToBase64String(Model.asset3dImages[i]);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    <div class="col-md-4 col-xl-3 col-sm-4 col-12 m-sm-4 m-lg-0 m-2" style="padding:0;" width="206px">
+                        <img class="p-lg-0 thumbnail" onclick="location.href= '@Url.Action("_3D", new { Id = item.Id })'" src="@imgSrc" width="240px" height="150px" style="padding:0; border-radius:4px;margin:0px;cursor:pointer;" />
+                        <p>@item.Name</p>
+                    </div>
+                }
+                catch (Exception e) { }
+            }
+            i=-1;
+            foreach (var item in Model.assetsAudio)
+            {
+                try
+                {
+                    i++;
+                    var base64 = Convert.ToBase64String(Model.assetAudioImages[i]);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    <div class="col-md-4 col-xl-3 col-sm-4 col-12 m-sm-4 m-lg-0 m-2" style="padding:0;" width="206px">
+                        <img class="p-lg-0 thumbnail" onclick="location.href= '@Url.Action("Audio", new { Id = item.Id })'" src="@imgSrc" width="240px" height="150px" style="padding:0; border-radius:4px;margin:0px;cursor:pointer;" />
+                        <p>@item.Name</p>
+                    </div>
+                }
+                catch (Exception e) { }
+            }
+            i=-1;
+            foreach (var item in Model.assetsTools)
+            {
+                try
+                {
+                    i++;
+                    var base64 = Convert.ToBase64String(Model.assetsToolsImages[i]);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    <div class="col-md-4 col-xl-3 col-sm-4 col-12 m-sm-4 m-lg-0 m-2" style="padding:0;" width="206px">
+                        <img class="p-xl-0 thumbnail" onclick="location.href= '@Url.Action("Tools", new { Id = item.Id })'" src="@imgSrc" width="240px" height="150px" style="padding:0; border-radius:4px;margin:0px;cursor:pointer;" />
+                        <p>@item.Name</p>
+                    </div>
+                }
+                catch (Exception e) { }
+            }
+        }
+    </div>
+}
+
+
+<!--</table>-->
+@section Scripts{
+    <script>
+    $(function () {
+        if (window.innerWidth >= 576 && window.innerWidth < 768) {
+            $(".thumbnail").css("padding", "0 1.25rem 0 1.25rem");
+        }
+        $(window).resize(function () {
+            if (window.innerWidth >= 576 && window.innerWidth < 768) {
+                $(".thumbnail").css("padding", "0 1.25rem 0 1.25rem");
+            }
+            else {
+                $(".thumbnail").css("padding", "0");
+            }
+        });
+    });
+
+    $('body').css({
+            position: 'relative',
+            top: '200px',
+        });
+        
+    </script>
+
+}

@@ -1,0 +1,4 @@
+﻿CREATE TABLE [dbo].Assets
+(
+	[Id] INT NOT NULL PRIMARY KEY
+)

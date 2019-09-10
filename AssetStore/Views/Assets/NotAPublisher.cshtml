@@ -1,0 +1,23 @@
+﻿
+    <h2>
+        Publisher Administration
+    </h2>
+    <hr />
+    <h4>No Access</h4>
+    <p>
+        You are not registered as Finki Asset Store Publisher.
+    </p>
+    <ul>
+        <li><a href="@Url.Action("LogIn", "Account")">Login as different user.</a></li>
+        <li><a href="@Url.Action("HowToPublisher", "Assets")">How to become a publisher and submit content.</a></li>
+        <li><a href="@Url.Action("Publisher", "Account")">Create new Finki Asset Store Publisher.</a></li>
+    </ul>
+@section Scripts{
+    <script>
+        $('body').css({
+            position: 'relative',
+            top: '50px',
+
+        });
+    </script>
+}

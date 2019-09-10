@@ -1,0 +1,84 @@
+﻿@model AssetStore.Models.AssetImages
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+
+@using (Html.BeginForm("Publish", "Assets", FormMethod.Post, new { enctype = "multipart/form-data" })) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Publish Asset</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.asset.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.asset.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.asset.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.asset.Platform, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.asset.Platform, new SelectList(new string[] { "Windows", "Mac OS", "Linux", "Android", "iOS", "Web GL" }), "-- Select platform --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.asset.Platform, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.asset.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.asset.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.asset.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.asset.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.asset.Type, new SelectList(new string[] { "2D", "3D", "Tools", "Audio" }), "-- Select type", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.asset.Type, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.asset.Description, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.asset.Description, htmlAttributes: new { @class = "control-label col-md-4" })
+                <br />
+                @Html.ValidationMessageFor(model => model.asset.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Files, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-offset-2 col-md-10">
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Files, new { type = "file", multiple = "multiple" })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.Files, "" , new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.File, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-offset-2 col-md-10">
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.File, new { type = "file" })
+                    <br />
+                    @Html.ValidationMessageFor(model => model.File, "" , new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

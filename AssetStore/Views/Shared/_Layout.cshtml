@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="~/Content/jquery-ui.css" />
+    <link rel="stylesheet" href="~/Content/jquery-ui.structure.css" />
+    <link rel="stylesheet" href="~/Content/jquery-ui.theme.css"/>
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+    <style>
+        .navbar-nav > li > a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .right {
+            position: relative;
+            left: 50px;
+        }
+
+        body {
+            opacity: 0;
+        }
+
+            body.all-loaded {
+                opacity: 1;
+            }
+    </style>
+    <noscript>
+        <style>
+            body {
+                opacity: 1;
+            }
+            form *{
+                display: inline;
+            }
+        </style>
+    </noscript>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <img src="https://cdn.discordapp.com/attachments/618159055399288835/618159788353650701/Untitled.png" width="40px" height="30px" style="cursor:pointer;" onclick="location.href='@Url.Action("Index", "Assets")'" />
+            @Html.ActionLink("Finki Asset Store", "Index", "Assets", new { area = "" }, new { @class = "navbar-brand" })
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navb">
+                <div class="input-group" style="width:40%">
+                    @using (Html.BeginForm("Index", "Assets", FormMethod.Get, new
+                    {
+                        @class = "form-inline my-2 my-lg-0",
+                        @id = "nav-search"
+                    }))
+                    {
+                        <input class="form-control mr-sm-2 nav-element" name="search" type="text" placeholder="Search" value="" />
+                        <button class="btn btn-success my-2 my-sm-0 nav-element" type="submit">Search</button>
+                    }
+
+                </div>
+                <ul id="details" class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle pr-2" style="color:white" href="#" id="navbardrop" data-toggle="dropdown">
+                            Assets
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="@Url.Action("Index", "Assets", new { search = "2D" })">2D</a>
+                            <a class="dropdown-item" href="@Url.Action("Index", "Assets", new { search = "3D" })">3D</a>
+                            <a class="dropdown-item" href="@Url.Action("Index", "Assets", new { search = "Tools" })">Tools</a>
+                            <a class="dropdown-item" href="@Url.Action("Index", "Assets", new { search = "Audio" })">Audio</a>
+                        </div>
+                    </li>
+                    @{/*
+                              if (User.Identity.IsAuthenticated)
+                              {*/
+                        /*if (User.IsInRole("Administrator"))
+                        {*/
+                            
+
+                        /*}
+                        else
+                        {*/
+                            <li class="nav-item">
+                                <a class="nav-link nav-element pr-2" href="@Url.Action("Publish", "Assets")" style="color:white">Sell Assets</a>
+                            </li>
+                        //}
+
+                        //}
+                    }
+
+                    <li class="nav-item">
+                        <a class="nav-link nav-element pr-3" href="@Url.Action("AboutUs", "Assets")" style="color:white">About Us</a>
+                    </li>
+                    @{
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link nav-element pr-2" title="My Assets" href="@Url.Action("MyAssets", "Account")">
+                                    <i class="fa fa-cloud" style="color:white"></i>
+                                </a>
+                            </li>
+                        }
+                    }
+                    @{
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link nav-element pr-0" id="shopping-cart" title="Shopping Cart" href="@Url.Action("Cart", "Account")">
+                                    <i class="fa fa-shopping-cart" style="color:white"></i>
+                                </a>
+                            </li>
+                        }
+                    }
+                    @{
+                        if (User.IsInRole("Administrator"))
+                        {
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle pr-5" style="color:white" href="#" id="navbardrop" data-toggle="dropdown">
+                                    Admin
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="@Url.Action("PublisherApplications", "Account")">Publisher Applications</a>
+                                    <a class="dropdown-item" href="@Url.Action("GetAllUsers", "Account")">All Users</a>
+                                    <a class="dropdown-item" href="@Url.Action("AddUserToRole", "Account")">Add User to Role</a>
+                                </div>
+                            </li>
+                        }
+                    }
+                    <!--<li class="nav-item">
+        <form class="form-inline my-2 my-lg-0" id="nav-search" method="get">
+            <input class="form-control mr-sm-2 nav-element" name="search" type="text" placeholder="Search" value="">
+            <button class="btn btn-success my-2 my-sm-0 nav-element" type="submit">Search</button>
+        </form>
+    </li>-->
+                    <!--<li class="nav-item">-->
+                    <!--</li>-->
+                </ul>
+
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery-ui.js"></script>
+    @RenderSection("scripts", required: false)
+    <script>
+        $(window).on("load", function () {
+            $("body").addClass('all-loaded');
+        });
+    </script>
+
+    <script>
+
+        var Register, Login;
+        Register = $("#registerLink");
+        Login = $("#loginLink");
+        $("#registerLink").css("margin-right", "5px")
+        //$('#container').css('opacity', 1);
+        $('body').css({
+            position: 'relative',
+            top: '100px',
+        });
+
+        
+    if ($(window).width() < 1200) {
+        //$("nav>.container>#details>li>a").css("padding", "0");
+        $(".nav-link").css("padding", "0");
+        $("#shopping-cart").css("margin-right", "0.50rem");
+    }
+    /*else if ($(window).width() >= 1200) {
+        $(".nav-link").css("padding", "8px");
+    }*/
+    $(window).resize(function () {
+        if ($(window).width() < 1200) {
+            $(".nav-link").css("padding", "0");
+            $("#shopping-cart").css("margin-right", "0.50rem");
+        }
+        else if ($(window).width() >= 1200) {
+            $(".nav-link").css("padding", "8px");
+        }
+    });
+
+        // document is loaded and DOM is ready
+        if ($(window).width() > 991) {
+            //$(".nav-item").addClass("right");
+            //Register.addClass("mr-5");
+            //Login.addClass("ml-5");
+        }
+        else {
+            //$("#nav-search").after($("#navb ul:nth-child(1)"))
+            //$("#details li").addClass("mb-2");
+            //Register.parent().addClass("mb-2");
+            //Login.parent().addClass("mb-2");
+        }
+
+    /*
+        $(window).resize(function () {
+            if ($(window).width() < 991) {
+                $(".nav-item").removeClass("right");
+                Register.removeClass("ml-5");
+                Login.removeClass("ml-5");
+                Register.parent().addClass("mb-2");
+                Login.parent().addClass("mb-2");
+                $("#details li").addClass("mb-2");
+                $("#nav-search").after($("#details"));
+            }
+            else {
+                $(".nav-item").addClass("right");
+                Register.addClass("ml-5");
+                Login.addClass("ml-5");
+                Register.parent().removeClass("mb-2");
+                Login.parent().removeClass("mb-2");
+                $("#details li").removeClass("mb-2");
+                $("#nav-search").before($("#details"));
+
+            }
+            */
+
+
+    </script>
+
+</body>
+</html>

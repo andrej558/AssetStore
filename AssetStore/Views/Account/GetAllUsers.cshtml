@@ -1,0 +1,129 @@
+﻿@model IEnumerable<AssetStore.Models.ApplicationUser>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model=>model.Roles)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PasswordHash)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecurityStamp)
+        </th>
+        <!--
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TwoFactorEnabled)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LockoutEndDateUtc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LockoutEnabled)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccessFailedCount)
+        </th>
+        <th></th>
+            -->
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @{
+
+                string roles = null;
+                if (item.Roles != null)
+                {
+
+                    foreach (var role in item.Roles)
+                    {
+                        if (roles != null)
+                        {
+                            roles += "," + role.RoleId;
+                        }
+                        else
+                        {
+                            roles += role.RoleId;
+                        }
+
+                    }
+                    if (roles != null)
+                    {
+                        string[] roleArray = roles.Split(',');
+                        foreach (var role in roleArray)
+                        {
+                            if (role == "0")
+                            {
+                                <span>Admin</span>
+                            }
+                            else if (role == "2")
+                            {
+                                <span>Publisher</span>
+                            }
+                            else if (role == "3")
+                            {
+                                <span>User</span>
+                            }
+                        }
+                    }
+
+                }
+
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PasswordHash)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecurityStamp)
+        </td>
+        <!--
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumberConfirmed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TwoFactorEnabled)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LockoutEndDateUtc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LockoutEnabled)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccessFailedCount)
+        </td>
+        -->
+        <td>
+
+            @Html.ActionLink("Details", "DetailsUser", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "DeleteUser", new { id = item.Id })
+        </td>
+    </tr>
+}
+
+</table>

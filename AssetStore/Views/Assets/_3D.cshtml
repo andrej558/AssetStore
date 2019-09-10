@@ -1,0 +1,113 @@
+﻿@model AssetStore.Models.AssetPhotosModel
+
+    <div>
+        <h4>@Model.asset.Name</h4>
+        <hr />
+        <dl class="dl-horizontal">
+
+            <dt>
+                <label>Made by:</label>
+            </dt>
+            
+            <dd>
+                @Html.DisplayFor(model => model.asset.Publisher)
+            </dd>
+        </dl>
+        <div id="main" class="row col-12">
+            <div id="div1" class="row col-lg-12 col-xl-7 col-md-12 col-12">
+                <div class="flex-column col-sm-4 col-3 col-md-3 col-lg-2 image-holder" style="margin:0; display:inline">
+                    @{
+                        foreach (byte[] b in Model.photos)
+                        {
+                            var base64 = Convert.ToBase64String(b);
+                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                            <img src="@imgSrc" width="86px" height="70px" style="padding:7px 0 8px 0; cursor:pointer"
+                                 class="image-aside" />
+                            <br />
+                        }
+                    }
+
+                </div>
+                <div class="col-9 col-sm-8 col-md-3 col-lg-3" style="display:inline">
+                    <img id="mainImage" class="" width="500px" height="380px" style="padding:0" />
+                </div>
+                <br />
+                
+
+            </div>
+            
+            <div id="div2" class="row col-lg-12 col-xl-4 col-md-12 m-3 col-12">
+                <div class="col-8 col-md-3" style="height:10%">
+                    <label>Your Price:</label>
+                    <br />
+                    @Html.DisplayFor(model => model.asset.Price)
+                    <label>€</label>
+
+                </div>
+
+                <div class="col-4 col-md-3" style="height:10%">
+
+                    @{
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            var item = Model.item;
+                            if (item != null)
+                            {
+                                if (item.isBought)
+                                {
+                                    <button style="width:124px;" class="btn btn-success" onclick="location.href='@Url.Action("MyAssets", "Account")'">
+                                        View in My Assets
+                                    </button>
+                                }
+                                else if (item.isInCart)
+                                {
+                                    <button style="width:124px;" class="btn btn-success" onclick="location.href='@Url.Action("Cart", "Account")'">
+                                        View in Cart
+                                    </button>
+                                }
+                            }
+                            else
+                            {
+                                <button style="width:124px;" class="btn btn-success" onclick="location.href='@Url.Action("AddToCart", new { Id = Model.asset.Id, type = Model.asset.Type, })'">
+                                    Add to Cart
+                                </button>
+                            }
+                        }
+
+                    }
+
+                </div>
+                <div class="col-12">
+                    <h5>Details:</h5>
+                    <label>Size:</label>
+                    @Html.DisplayFor(model => model.asset.Size)
+                    <label>MB</label><br />
+                    <label>Released On:</label>
+                    @Html.DisplayFor(model => model.asset.ReleaseDate)
+                    <br />
+                    <label style="margin:0 auto">Description</label>
+                    <p id="description">
+                        @Model.asset.Description
+                    </p>
+                </div>
+                <div class="col-12" style="float:left">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts{
+        <script>
+    $(function () {
+        var alt = $("#mainImage").attr("src");
+        if (alt == undefined) {
+
+            $("#mainImage").attr("src", $(".image-holder").children().first().attr("src"));
+                }        
+            });
+            $(".image-aside").on("click", function() {
+                $("#mainImage").attr("src", $(this).attr("src"));
+            });
+        </script>        
+    }

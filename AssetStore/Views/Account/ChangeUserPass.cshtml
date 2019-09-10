@@ -1,0 +1,51 @@
+﻿@model AssetStore.Models.PersonModel
+
+@{
+    
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+
+        .error {
+            color: red;
+        }
+        .form-control{
+            padding:0;
+        }
+    </style>
+</head>
+<body>
+    @using (Html.BeginForm("ChangeUserPass", "Account", FormMethod.Post))
+    {
+        <table>
+            <tr>
+                <td>Password</td>
+                <td>@Html.PasswordFor(m => m.Password, new { @class= "form-control"  })</td>
+                <td>@Html.ValidationMessageFor(m => m.Password, "", new { @class = "error" })</td>
+            </tr>
+            <tr>
+                <td>Confirm Password</td>
+                <td>@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })</td>
+                <td>@Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "error" })</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Submit" class="btn btn-danger"/></td>
+                <td></td>
+            </tr>
+        </table>
+    }
+</body>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+</html>

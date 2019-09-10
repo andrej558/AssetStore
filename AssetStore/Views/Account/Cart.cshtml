@@ -1,0 +1,139 @@
+﻿@model IEnumerable<AssetStore.Models.Item>
+
+
+<h2>@Model.Count() items in Cart</h2>
+<hr />
+<br /><br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ElementAt(0).name)
+        </th>
+        <th>
+            <label>Quantity</label>
+        <th>
+            @Html.DisplayNameFor(model => model.ElementAt(0).price)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @{
+                    if (item.assetType == "2D")
+                    {
+                        @Html.ActionLink(item.name, "_2D", "Assets", new { Id = item.assetId }, htmlAttributes: null)
+                    }
+                    else if (item.assetType == "3D")
+                    {
+                        @Html.ActionLink(item.name, "_3D", "Assets", new { Id = item.assetId }, htmlAttributes: null)
+                    }
+                    else if (item.assetType == "Tools")
+                    {
+                        @Html.ActionLink(item.name, "Tools", "Assets", new { Id = item.assetId }, htmlAttributes: null)
+                    }
+                    else
+                    {
+                        if (item.assetType == "Audio")
+                        {
+                            @Html.ActionLink(item.name, "Audio", "Assets", new { Id = item.assetId }, htmlAttributes: null)
+                        }
+                    }
+                }
+                
+            </td>
+            <td>
+                <label>1</label>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+                <span>
+                    €
+                </span>
+            </td>
+            <td>
+                <button type="button" class="close" aria-label="Close" onclick="location.href='@Url.Action("RemoveFromCart", "Account", new { Id = item.Id /*type = item.assetType, Id = item.assetId*/ })'">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </td>
+        </tr>
+    }
+<tr>
+    @if(Model.Count() != 0)
+    {
+    <td>
+        @{
+            float price =0f;
+            foreach(var item in Model)
+            {
+                price += item.price;
+            }
+
+            <button onclick="OpenDialog()">
+                    Proceed to Checkout
+            </button>
+            if (Model.Count() == 1)
+            {
+                <div id="dialog" title="Purchase">
+                    <p>Are you sure you want to buy @Model.Count() Asset for @price€ ?</p>
+                </div>
+            }
+            else if (Model.Count() > 1)
+            {
+                <div id="dialog" title="Purchase">
+                    <p>Are you sure you want to buy @Model.Count() Assets for @price€ ?</p>
+                </div>
+            }
+
+          }
+    </td>
+    }
+
+    
+
+</tr>
+</table>
+
+
+
+@section Scripts{
+    <script>
+        $(window).resize(function() {
+            $("#dialog").dialog("option", "position", {my: "center", at: "center", of: window});
+        });
+        $("#dialog").dialog({
+            autoOpen: false,
+            modal: true,
+            draggable: false,
+            position: ({
+                my: "center",
+                at: "center",
+                of: window
+            }),
+            buttons: [
+                {
+                    text: "Yes", 
+                    click:
+                        function () {
+                            $(this).dialog("close");
+                            location.href=location.href='@Url.Action("ProceedToCheckout", "Account")'
+                        }
+                },
+                {
+                    text: "No",
+                    click:
+                        function () {
+                            $(this).dialog("close");
+                        }
+                }
+            ]
+        });
+    const OpenDialog = () => {
+        $("#dialog").dialog("open");
+    }
+    </script>
+}

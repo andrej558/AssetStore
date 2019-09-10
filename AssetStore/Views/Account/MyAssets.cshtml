@@ -1,0 +1,70 @@
+﻿@model IEnumerable<AssetStore.Models.Item>
+
+<h2>My Assets</h2>
+<table class="table">
+    <tr>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td style="padding:0.75rem 0 0.75rem 0">
+                @{
+                    var base64 = Convert.ToBase64String(item.image);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                }
+
+                <img src="@imgSrc" width="100px" height="100px"/>
+            </td>
+            <td>
+                <p style="vertical-align:central;">
+                    @{
+                        if (item.assetType == "2D")
+                        {
+                            @Html.ActionLink(item.name, "_2D", "Assets", new { Id = item.assetId }, htmlAttributes:null)
+                        }
+                        else if (item.assetType == "3D")
+                        {
+                            @Html.ActionLink(item.name, "_3D", "Assets", new { Id = item.assetId }, htmlAttributes: null)
+                        }
+                        else if (item.assetType == "Tools")
+                        {
+                            @Html.ActionLink(item.name, "Tools", "Assets", new { Id = item.assetId }, htmlAttributes: null)
+                        }
+                        else
+                        {
+                            if (item.assetType == "Audio")
+                            {
+                                @Html.ActionLink(item.name, "Audio", "Assets", new { Id = item.assetId }, htmlAttributes:null)
+                            }
+                        }
+                    }
+                </p>
+            </td>
+            <td>
+                @{
+                    if (item.assetType == "2D")
+                    {
+                        @Html.ActionLink("Download Asset", "DownloadAsset2D", new { Id = item.assetId });
+                    }
+                    else if (item.assetType == "3D")
+                    {
+                        @Html.ActionLink("Download Asset", "DownloadAsset3D", new { Id = item.assetId });
+                    }
+                    else if (item.assetType == "Tools")
+                    {
+                        @Html.ActionLink("Download Asset", "DownloadAssetTools", new { Id = item.assetId });
+                    }
+                    else if (item.assetType == "Audio")
+                    {
+                        @Html.ActionLink("Download Asset", "DownloadAssetAudio", new { Id = item.assetId });
+
+                    }
+                }
+            </td>
+            <td>
+            </td>
+        </tr>
+    }
+</table>
